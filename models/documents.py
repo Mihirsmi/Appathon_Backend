@@ -21,6 +21,16 @@ class User(DynamicDocument):
         s = URLSafeSerializer(SECRET_KEY)
         return s.dumps(str(self.id))
 
+    @staticmethod
+    def verify_auth_token(token):
+        s = URLSafeSerializer(SECRET_KEY)
+        try:
+            data = s.loads(token)
+            return User.objects(id=data).first()
+        except Exception as ex:
+            print ex
+            return None
+
 class Question(DynamicDocument):
     question = StringField()
     questionUser = ReferenceField(User, reverse_delete_rule=CASCADE)

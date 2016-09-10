@@ -16,3 +16,19 @@ def sendEmail(token,email):
         "text": message
         }
     )
+
+def sendPasswordEmail(token, email):
+    message ='Click on the link below and set your new Password!\n'
+    link = 'http://appathon2016.herokuapp.com/api/forgotPassword?token='+token+'\n'
+    message += link
+    message += 'Have a good day!\n'
+    return requests.post(
+    "https://api.mailgun.net/v3/sandboxab643396059243a895ca2ea5aba4688e.mailgun.org/messages",
+    auth = ("api", "key-845ca68ca5b1dbab046af2929c501abc"),
+    data = {
+        "from":"Admin User admin@sandboxab643396059243a895ca2ea5aba4688e.mailgun.org",
+        "to": email,
+        "subject": "Email Verification for Bits_Please",
+        "text": message
+        }
+    )

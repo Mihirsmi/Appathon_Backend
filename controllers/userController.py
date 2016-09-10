@@ -16,7 +16,6 @@ class LogInController(Resource):
 class UserController(Resource):
 
     def post(self):
-        import pdb; pdb.set_trace()
         parser = reqparse.RequestParser()
         parser.add_argument('email', required=True, help='Please specify email')
         parser.add_argument('username', required=True, help='Please specify username')
@@ -71,3 +70,14 @@ class EmailVerificationController(Resource):
         userVerified.isEmailConfirmed = True
         userVerified.save()
         return {'response':'Verified'}
+
+class ForgotPasswordController(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('email', required=True, help='Please specify email')
+        args = parser.parse_args()
+        user = documents.User.objects(email=args['email']).first()
+        if user is None:
+            return {'response':'No user found'},400
+        sendPasswordEmail(user.generate_auth_token(), args['email'])
+        return {'response':'Link sent Successfully'}
