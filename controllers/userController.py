@@ -16,6 +16,7 @@ class LogInController(Resource):
 class UserController(Resource):
 
     def post(self):
+        import pdb; pdb.set_trace()
         parser = reqparse.RequestParser()
         parser.add_argument('email', required=True, help='Please specify email')
         parser.add_argument('username', required=True, help='Please specify username')
@@ -59,4 +60,14 @@ class CredentialController(Resource):
 
         return {'response':'Unauthorized'},401
 
-#class EmailVerificationController(Resource):
+class EmailVerificationController(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('token', required=True, help='Please specify token for Verification')
+        args = parser.parse_args()
+        userVerified = documents.User.verify_auth_token(args['token'])
+        if userVerified is None:
+            return {'response':'Try Again'},403
+        userVerified.isEmailConfirmed = True
+        userVerified.save()
+        return {'response':'Verified'}

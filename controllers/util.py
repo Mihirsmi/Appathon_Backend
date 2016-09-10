@@ -1,4 +1,5 @@
 from __init__ import *
+import requests
 
 def sendEmail(token,email):
     message ='Howdy citizens of Bits_Please!\nI am glad that you signed up for Bits_Please\nNow click on the link below and get yourself registered!\n'
