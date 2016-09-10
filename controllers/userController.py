@@ -1,5 +1,6 @@
 from __init__ import *
 from auth import auth
+from util import *
 
 class LogInController(Resource):
 
@@ -30,7 +31,11 @@ class UserController(Resource):
         user.username = args['username']
         user.encrypt_password(args['password'])
 
-        user.save()
+        try:
+            user.save()
+            sendEmail(user.generate_auth_token(),args['email'])
+        except Exception as e:
+            return{'response':'Invalid email or objectId for user'},400
         userInfo = {}
         userInfo['id'] = str(user.id)
         userInfo['email'] = user.email
