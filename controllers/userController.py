@@ -16,7 +16,6 @@ class LogInController(Resource):
 class UserController(Resource):
 
     def post(self):
-        import pdb; pdb.set_trace()
         parser = reqparse.RequestParser()
         parser.add_argument('email', required=True, help='Please specify email')
         parser.add_argument('username', required=True, help='Please specify username')
