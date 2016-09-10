@@ -23,7 +23,6 @@ api.add_resource(questionController.AnswerQuestion, '/api/answerQuestion')
 
 @app.route('/api/forgotPassword', methods = ['GET', 'POST'])
 def setNewPassword():
-    import pdb; pdb.set_trace()
     if request.method == 'POST':
         token = request.args.get('token')
         user = documents.User.verify_auth_token(token)
