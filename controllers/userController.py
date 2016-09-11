@@ -19,10 +19,10 @@ class LogInController(Resource):
 
         #End Extra code
         response = {}
-        response['id'] = str(g.user.id)
-        response['username'] = g.user.username
-        response['email'] = g.user.email
-        response['token'] = g.user.generate_auth_token()
+        response['id'] = str(user.id)
+        response['username'] = user.username
+        response['email'] = user.email
+        response['token'] = user.generate_auth_token()
         return response
 
 
