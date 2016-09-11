@@ -13,10 +13,10 @@ class LogInController(Resource):
         args = parser.parse_args()
         user = documents.User.objects(username=args['username']).first()
         if user is None:
-            abort 400
+            return {'response':'user not found'},400
         if not user.verify_password(args['password']):
-            abort 401
-        
+            return {'response':'password not match'},401
+
         #End Extra code
         response = {}
         response['id'] = str(g.user.id)
