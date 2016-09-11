@@ -4,12 +4,19 @@ from util import *
 
 class LogInController(Resource):
 
-    @auth.login_required
+    #@auth.login_required
     def get(self):
+        #Extra code
+        parser = reqparse.RequestParser()
+        parser.add_argument('username', required=True, help='Please specify username')
+        parser.add_argument('password', required=True, help='Please specify password')
+        args = parser.parse_args()
+        #End Extra code
         response = {}
         response['id'] = str(g.user.id)
         response['username'] = g.user.username
         response['email'] = g.user.email
+        response['token'] = g.user.generate_auth_token()
         return response
 
 
