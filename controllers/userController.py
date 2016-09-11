@@ -4,12 +4,21 @@ from util import *
 
 class LogInController(Resource):
 
-    @auth.login_required
     def get(self):
+        import pdb; pdb.set_trace()
+        parser = reqparse.RequestParser()
+        parser.add_argument('username', required = True, help = 'Please specify Email')
+        parser.add_argument('password', required = True, help = 'Please specify Email')
+        args = parser.parse_args()
+        user = documents.User.objects(username=args['username']).first()
+        if user is None:
+            return 400
+        if not user.verify_password(args['password']):
+            return 401
         response = {}
-        response['id'] = str(g.user.id)
-        response['username'] = g.user.username
-        response['email'] = g.user.email
+        response['id'] = str(user.id)
+        response['username'] = user.username
+        response['email'] = user.email
         return response
 
 
