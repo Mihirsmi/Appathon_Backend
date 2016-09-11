@@ -11,6 +11,12 @@ class LogInController(Resource):
         parser.add_argument('username', required=True, help='Please specify username')
         parser.add_argument('password', required=True, help='Please specify password')
         args = parser.parse_args()
+        user = documents.User.objects(username=args['username']).first()
+        if user is None:
+            abort 400
+        if not user.verify_password(args['password']):
+            abort 401
+        
         #End Extra code
         response = {}
         response['id'] = str(g.user.id)
