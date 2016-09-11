@@ -5,7 +5,6 @@ from util import *
 class LogInController(Resource):
 
     def get(self):
-        import pdb; pdb.set_trace()
         parser = reqparse.RequestParser()
         parser.add_argument('username', required = True, help = 'Please specify Email')
         parser.add_argument('password', required = True, help = 'Please specify Email')
@@ -16,9 +15,9 @@ class LogInController(Resource):
         if not user.verify_password(args['password']):
             return 401
         response = {}
-        response['id'] = str(user.id)
-        response['username'] = user.username
-        response['email'] = user.email
+        response['id'] = str(g.user.id)
+        response['username'] = g.user.username
+        response['email'] = g.user.email
         return response
 
 
